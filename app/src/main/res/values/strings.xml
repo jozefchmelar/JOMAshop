@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">JOMAshop</string>
+    <string name="btn_start">Start shopping</string>
+    <string name="textview_Total">Total  :</string>
+    <string name="textview_limit">Limit :</string>
+    <string name="btn_done">Im done</string>
+    <string name="editTextProductNameSearch">Type in the product name</string>
+    <string name="btn_NewProduct">New product</string>
+    <string name="btnScanner">Scan barcode!</string>
+    <string name="textViewProductName">Product name</string>
+    <string name="textViewPrice">Price</string>
+    <string name="favourite">Favourite?</string>
+</resources>
