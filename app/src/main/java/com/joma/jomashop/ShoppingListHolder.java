@@ -8,17 +8,26 @@ import java.util.ArrayList;
 public class ShoppingListHolder {
 //singleton class for all the data.
     private static ShoppingListHolder ourInstance = new ShoppingListHolder();
-    private ArrayList<Product> ShoppingList;
-
-    public static ShoppingListHolder getInstance() {
-        return ourInstance;
-    }
+    private static ArrayList<Product> ShoppingList;
 
     private ShoppingListHolder() {
         ShoppingList = new ArrayList<>();
     }
 
+    public static ShoppingListHolder getInstance() {
+        return ourInstance;
+    }
+
+    public static double getTotalPrice() {
+        double sum = 0;
+        for (Product product : ShoppingList) {
+            sum += product.getTotalPrice();
+        }
+        return sum;
+    }
+
     public ArrayList<Product> getShoppingList(){
         return ShoppingList;
     }
+
 }

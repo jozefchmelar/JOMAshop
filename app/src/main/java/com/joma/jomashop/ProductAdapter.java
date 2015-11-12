@@ -2,18 +2,13 @@ package com.joma.jomashop;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -22,23 +17,24 @@ import java.util.ArrayList;
  */
 public class ProductAdapter extends ArrayAdapter<Product> {
 
-
+    DataTransferInterface dtInterface;
     private Context context;
     private ArrayList<Product> ShoppingList;
 
 
-    public ProductAdapter(Context context, ArrayList<Product> ShoppingList) {
+    public ProductAdapter(Context context, ArrayList<Product> ShoppingList, DataTransferInterface dtInterface) {
         super(context, R.layout.listview_element, R.id.textView, ShoppingList);
         this.context = context;
         this.ShoppingList = ShoppingList;
+        this.dtInterface = dtInterface;
 
     }
 
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         // get row
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.listview_element, parent, false);
         final Product product = ShoppingList.get(position);
@@ -79,15 +75,14 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             @Override
             public void onClick(View v) {
                 product.QuantityPlus(1);  //on click I add +1
-
-                notifyDataSetChanged();
+                notifyDataSetChanged(product, position);
             }
         });
         btnPlus.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 product.QuantityPlus(5);//on  longclick I add +5   --the same stuff but for Minus bellow
-                notifyDataSetChanged();
+                notifyDataSetChanged(product, position);
                 return true;
             }
         });
@@ -95,7 +90,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             @Override
             public void onClick(View v) {
                 product.QuantityMinus(1);
-                notifyDataSetChanged();
+                notifyDataSetChanged(product, position);
             }
         });
 
@@ -103,7 +98,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             @Override
             public boolean onLongClick(View v) {
                 product.QuantityMinus(5);
-                notifyDataSetChanged();
+                notifyDataSetChanged(product, position);
                 return true;
             }
         });
@@ -113,7 +108,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             @Override
             public void onClick(View v) { //on click  will display settings
                 product.setVisibleSettings(!product.isVisibleSettings());
-                notifyDataSetChanged();
+                notifyDataSetChanged(product, position);
             }
         });
 
@@ -122,6 +117,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             public void onClick(View v) {//delete button
                 Product toRemove = ShoppingList.get(position);
                 ShoppingList.remove(toRemove);
+                dtInterface.deletedProductValue(toRemove.getTotalPrice());
                 notifyDataSetChanged();
             }
         });
@@ -140,6 +136,12 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
         return rowView;
     }
+
+    public void notifyDataSetChanged(Product product, int position) {
+        super.notifyDataSetChanged();
+        dtInterface.productToEdit(product, position);
+    }
+
 
 
 }
