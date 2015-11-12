@@ -4,9 +4,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -16,6 +19,7 @@ import java.util.Random;
  */
 public class lib {
     public static final String JOMAex = "Jomashop exception";
+    public static final boolean TestingObject = true;
     public static final String JOMAtest = "Jomashop testing";
     public static final double randomDouble(int min,int max){
         Random r = new Random();
@@ -69,4 +73,9 @@ public class lib {
         return newValue +"";
     }
 
+    public static final String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMdyyyy' 'kh");
+        String currentDateandTime = sdf.format(new Date());
+        return currentDateandTime;
+    }
 }

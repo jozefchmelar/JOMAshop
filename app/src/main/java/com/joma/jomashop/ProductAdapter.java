@@ -51,7 +51,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         Button btnMinus = (Button) rowView.findViewById(R.id.buttonMinus);
         //setting data
         textViewTotalPrice.setText(product.getTotalPrice() + "");
-        textViewNameOfProduct.setText(product.getProductName());
+        textViewNameOfProduct.setText(product.getProductname());
         textViewPriceForOne.setText(product.getPrice() + "" );
         editTextQuantity.setText(product.getQuantity() + "");
         //visibility of  elements.
@@ -61,7 +61,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
             editTextQuantity.setVisibility(View.INVISIBLE);
             textViewPriceForOne.setVisibility(View.INVISIBLE);
         }
-        if (product.isVisibleSettings()) {
+        if (product.isVisiblesettings()) {
         // should I display Edit and delete button? ..probably
             btnDelete.setVisibility(View.VISIBLE);
             btnEdit.setVisibility(View.VISIBLE);
@@ -107,7 +107,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //on click  will display settings
-                product.setVisibleSettings(!product.isVisibleSettings());
+                product.setVisiblesettings(!product.isVisiblesettings());
                 notifyDataSetChanged(product, position);
             }
         });

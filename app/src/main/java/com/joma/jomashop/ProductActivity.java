@@ -64,7 +64,7 @@ public class ProductActivity extends AppCompatActivity {
             ok=false;
         }
         int Quantity = product.getQuantity();
-        boolean VisibleSettings = product.isVisibleSettings();
+        boolean VisibleSettings = product.isVisiblesettings();
         boolean Favourite = productIsFavourite.isChecked();
         String Barcode = "";
         if(!ok) Toast.makeText(ProductActivity.this, "Please insert correct data", Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class ProductActivity extends AppCompatActivity {
 
     private void fillFieldsWithDataFromIntent(Product product) {
         // I use this method when I get some data from intent.
-        productName.setText(product.getProductName());
+        productName.setText(product.getProductname());
         productPrice.setText(product.getPrice() + "");
         productIsFavourite.setChecked(product.isFavourite());
 

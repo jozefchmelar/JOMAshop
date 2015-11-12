@@ -3,8 +3,9 @@
     package="com.joma.jomashop" >
 
     <application
+        android:name="com.orm.SugarApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
@@ -17,7 +18,22 @@
         </activity>
         <activity android:name=".MainActivity" >
         </activity>
-        <activity android:name=".ProductActivity" >
+        <activity android:name=".ProductActivity" ></activity>
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="databa1.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.joma.jomashop" />
+
+        <activity android:name=".ResultOfShopping">
         </activity>
     </application>
 

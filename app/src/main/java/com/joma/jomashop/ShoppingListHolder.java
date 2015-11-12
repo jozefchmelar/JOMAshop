@@ -11,6 +11,7 @@ public class ShoppingListHolder {
     private static ArrayList<Product> ShoppingList;
 
     private ShoppingListHolder() {
+
         ShoppingList = new ArrayList<>();
     }
 
@@ -26,7 +27,12 @@ public class ShoppingListHolder {
         return sum;
     }
 
+    public static boolean deleteContent() {
+        ShoppingList = new ArrayList<>();
+        return ShoppingList.isEmpty() ? true : false;
+    }
     public ArrayList<Product> getShoppingList(){
+
         return ShoppingList;
     }
 

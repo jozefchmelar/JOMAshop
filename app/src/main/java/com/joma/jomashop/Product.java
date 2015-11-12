@@ -2,96 +2,106 @@ package com.joma.jomashop;
 
 import android.util.Log;
 
+import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
+
 import java.io.Serializable;
-import java.util.Random;
 
 /**
  * Created by Jozef on 4.11.2015.
  */
-public class Product implements Serializable {
-    private String ProductName;
-    private double Price;
-    private int Quantity;
-    private boolean VisibleSettings; // Edit and delete button in listview
-    private boolean Favourite;
-    private String Barcode;
+public class Product extends SugarRecord<Product> implements Serializable {
+    String productname;
 
-    public Product(String productName, double price, int quantity, boolean visibleSettings, boolean favourite, String barcode) {
-        this.ProductName = productName;
-        this.Price = price;
-        this.Quantity = quantity;
-        this.VisibleSettings = visibleSettings;
-        this.Favourite = favourite;
-        this.Barcode = barcode;
-    }
+    double price;
+    int quantity;
+    String barcode;
+    @Ignore
+    boolean visiblesettings; // Edit and delete button in listview
+    @Ignore
+    boolean favourite;
 
-    public Product(String productName, double price) {
-        this.ProductName = productName;
-        this.Price = price;
-        this.Quantity = 1;
-        this.VisibleSettings = false;
-        this.Favourite = false;
-        this.Barcode = null;
-    }
-
+    //constructor for ORM
     public Product() {
-        this.ProductName = lib.getRandomProductName();
-        this.Price = lib.randomInt(2, 100);
-        this.Quantity = lib.randomInt(1, 6);
-        this.VisibleSettings = false;
-        this.Favourite = false;
-        this.Barcode = null;
     }
 
-    public String getProductName() {
-        return ProductName;
+    public Product(String productname, double price, int quantity, boolean visiblesettings, boolean favourite, String barcode) {
+        this.productname = productname;
+        this.price = price;
+        this.quantity = quantity;
+        this.visiblesettings = visiblesettings;
+        this.favourite = favourite;
+        this.barcode = barcode;
     }
 
-    public void setProductName(String productName) {
-        this.ProductName = productName;
+    public Product(String productname, double price) {
+        this.productname = productname;
+        this.price = price;
+        this.quantity = 1;
+        this.visiblesettings = false;
+        this.favourite = false;
+        this.barcode = null;
+    }
+
+    public Product(boolean isTest) {
+        this.productname = lib.getRandomProductName();
+        this.price = lib.randomInt(2, 100);
+        this.quantity = lib.randomInt(1, 6);
+        this.visiblesettings = false;
+        this.favourite = false;
+        this.barcode = "55665";
+    }
+
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname;
     }
 
     public double getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(double price) {
-        this.Price = price;
+        this.price = price;
     }
 
     public int getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
         if (quantity > 0)
-            this.Quantity = quantity;
+            this.quantity = quantity;
         else throw new IndexOutOfBoundsException();
 
     }
 
-    public boolean isVisibleSettings() {
-        return VisibleSettings;
+    public boolean isVisiblesettings() {
+        return visiblesettings;
     }
 
-    public void setVisibleSettings(boolean visibleSettings) {
-        this.VisibleSettings = visibleSettings;
+    public void setVisiblesettings(boolean visiblesettings) {
+        this.visiblesettings = visiblesettings;
     }
 
     public boolean isFavourite() {
-        return Favourite;
+        return favourite;
     }
 
     public void setFavourite(boolean favourite) {
-        this.Favourite = favourite;
+        this.favourite = favourite;
     }
 
     public String getBarcode() {
-        return Barcode;
+        return barcode;
     }
 
     public void setBarcode(String barcode) {
-        this.Barcode = barcode;
+        this.barcode = barcode;
     }
 
 
@@ -108,6 +118,6 @@ public class Product implements Serializable {
     }
 
     public double getTotalPrice() {
-        return this.Quantity * this.Price;
+        return this.quantity * this.price;
     }
 }
