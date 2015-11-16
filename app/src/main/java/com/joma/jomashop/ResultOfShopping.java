@@ -13,7 +13,7 @@ public class ResultOfShopping extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_of_shopping);
         //okey tu nastavim nejake sracky
-        //TODO zachytit intent,pridat data
+        //TODO zachytit intent,pridat data, nabindovat komponenty
     }
 
     public void btnContinue(View view) {

@@ -18,26 +18,30 @@ import java.util.Random;
  * Created by Jozef on 4.11.2015.
  */
 public class lib {
+
     public static final String JOMAex = "Jomashop exception";
-    public static final boolean TestingObject = true;
+    public static final boolean TESTING_OBJECT = true;
     public static final String JOMAtest = "Jomashop testing";
-    public static final double randomDouble(int min,int max){
+
+    public static final double randomDouble(final int min, final int max) {
         Random r = new Random();
-        return    round( min + (max - min) * r.nextDouble(),2);
+        return round(min + (max - min) * r.nextDouble(), 2);
     }
-    public static final double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
+
+    public static final double round(final double value, final int decimalPlaces) {
+        if (decimalPlaces < 0) throw new IllegalArgumentException();
+        long factor = (long) Math.pow(10, decimalPlaces);
+        long tmp = Math.round(value * factor);
         return (double) tmp / factor;
     }
-    public static final int randomInt(int min,int max){
+
+    public static final int randomInt(final int min, final int max) {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
-    public static final String getRandomProductName(){
-        ArrayList<String > list = new ArrayList<>();
+
+    public static final String getRandomProductName() {
+        ArrayList<String> list = new ArrayList<>();
         list.add("apple");
         list.add("coca cola");
         list.add("fanta");
@@ -50,27 +54,29 @@ public class lib {
         list.add("fries");
         list.add("chewing gum");
         list.add("eggs");
-        return list.get(randomInt(0,list.size()-1));
+        return list.get(randomInt(0, list.size() - 1));
     }
 
     /**
-     *
      * @return currency symbol .ie $ €...
      */
     public static final String CurrencySymbol() {
         Currency currency = Currency.getInstance(Locale.getDefault()); // you get the dollar,euro symbol...
         return currency.getSymbol();
     }
+
     /**
      * This code will take TextView with String value that I expect do be some double and
+     * add the VALUE paramater to it , returns strin
+     *
      * @param toEdit textview that has a double in it.
      * @param value  plus or minus some value
      * @return new value as string.
      */
-    public static final String addValueToTextView(TextView toEdit, double value){
+    public static final String addValueToTextView(final TextView toEdit, final double value) {
         double currentValue = Double.parseDouble(toEdit.getText().toString());
-        double newValue= currentValue + value;
-        return newValue +"";
+        double newValue = currentValue + value;
+        return newValue + "";
     }
 
     public static final String getCurrentTime() {
@@ -78,4 +84,34 @@ public class lib {
         String currentDateandTime = sdf.format(new Date());
         return currentDateandTime;
     }
+
+    /**
+     * This method will take text, add every letter until it finds " " empty space char.
+     *
+     * @param text
+     * @return will return first word
+     */
+    public static String getFirstWordFromString(String text) {
+        String result = "";
+        int position = 0;
+        while (text.charAt(position) != ' ') {
+            result += text.charAt(position++);
+        }
+        return result;
+    }
+
+    /**
+     * This method is looking for the position of first char in text.
+     *
+     * @param text
+     * @return
+     */
+    public static int getPositionOfFirstChar(String text, char charToFind) {
+        int result = 0;
+        while (text.charAt(result) != charToFind) {
+            result++;
+        }
+        return result;
+    }
+
 }

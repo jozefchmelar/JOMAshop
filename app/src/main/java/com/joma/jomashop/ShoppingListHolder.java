@@ -31,6 +31,7 @@ public class ShoppingListHolder {
         ShoppingList = new ArrayList<>();
         return ShoppingList.isEmpty() ? true : false;
     }
+
     public ArrayList<Product> getShoppingList(){
 
         return ShoppingList;

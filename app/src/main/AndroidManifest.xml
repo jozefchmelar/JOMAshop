@@ -22,7 +22,7 @@
 
         <meta-data
             android:name="DATABASE"
-            android:value="databa1.db" />
+            android:value="databa2.db" />
         <meta-data
             android:name="VERSION"
             android:value="2" />

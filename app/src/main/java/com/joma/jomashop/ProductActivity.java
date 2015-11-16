@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ProductActivity extends AppCompatActivity {
+
     private Product product;
     private int position;
     private EditText productName;
@@ -18,16 +19,15 @@ public class ProductActivity extends AppCompatActivity {
     private CheckBox productIsFavourite;
     private Button scanBarcode;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         initializeComponents();
-        try { // I'm trying to get intent in case that user decided to edit product insted of creating a new one
-            product = (Product) getIntent().getSerializableExtra("product");
-            position = getIntent().getExtras().getInt("position");
+        // I'm trying to get intent in case that user decided to edit product insted of creating a new one
+        try {
+            this.product = (Product) getIntent().getSerializableExtra("product");
+            this.position = getIntent().getExtras().getInt("position");
             fillFieldsWithDataFromIntent(product);
         } catch (NullPointerException e) {
             Log.e(lib.JOMAex, e.toString());
@@ -43,7 +43,6 @@ public class ProductActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     private void initializeComponents() {
         productName = (EditText) findViewById(R.id.editTextProductName);
         productPrice = (EditText) findViewById(R.id.editTextPrice);
@@ -55,26 +54,25 @@ public class ProductActivity extends AppCompatActivity {
     private Product createProductFromDatafields() {
         // I'm just gettting the data from fields and creating a new Product object.
         boolean ok= true;
-        String ProductName = productName.getText().toString();
-        double Price=0;
+        String productName = this.productName.getText().toString();
+        double price = 0;//get price from product price textarea
         try {
-             Price = Double.parseDouble(productPrice.getText().toString());
+            price = Double.parseDouble(productPrice.getText().toString());
         } catch (NumberFormatException e) {
             Log.e(lib.JOMAex, e.toString());
             ok=false;
         }
-        int Quantity = product.getQuantity();
-        boolean VisibleSettings = product.isVisiblesettings();
-        boolean Favourite = productIsFavourite.isChecked();
-        String Barcode = "";
+        int quantity = product.getQuantity();
+        boolean visibleSettings = product.isVisiblesettings();
+        boolean favourite = productIsFavourite.isChecked();
+        String barcode = "";
         if(!ok) Toast.makeText(ProductActivity.this, "Please insert correct data", Toast.LENGTH_SHORT).show();
-
-        return new Product(ProductName, Price, Quantity, VisibleSettings, Favourite, Barcode);
+        return new Product(productName, price, quantity, visibleSettings, favourite, barcode);
     }
 
     private void fillFieldsWithDataFromIntent(Product product) {
         // I use this method when I get some data from intent.
-        productName.setText(product.getProductname());
+        productName.setText(product.getName());
         productPrice.setText(product.getPrice() + "");
         productIsFavourite.setChecked(product.isFavourite());
 

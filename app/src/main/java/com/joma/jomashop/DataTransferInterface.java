@@ -5,6 +5,5 @@ package com.joma.jomashop;
  */
 public interface DataTransferInterface {
     public Product productToEdit(Product changedProduct, int position);
-
     public double deletedProductValue(double value);
 }

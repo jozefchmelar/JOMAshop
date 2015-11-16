@@ -11,8 +11,8 @@ import java.io.Serializable;
  * Created by Jozef on 4.11.2015.
  */
 public class Product extends SugarRecord<Product> implements Serializable {
-    String productname;
 
+    String name;
     double price;
     int quantity;
     String barcode;
@@ -23,10 +23,11 @@ public class Product extends SugarRecord<Product> implements Serializable {
 
     //constructor for ORM
     public Product() {
+        this.quantity = 1;
     }
 
-    public Product(String productname, double price, int quantity, boolean visiblesettings, boolean favourite, String barcode) {
-        this.productname = productname;
+    public Product(String name, double price, int quantity, boolean visiblesettings, boolean favourite, String barcode) {
+        this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.visiblesettings = visiblesettings;
@@ -34,8 +35,8 @@ public class Product extends SugarRecord<Product> implements Serializable {
         this.barcode = barcode;
     }
 
-    public Product(String productname, double price) {
-        this.productname = productname;
+    public Product(String name, double price) {
+        this.name = name;
         this.price = price;
         this.quantity = 1;
         this.visiblesettings = false;
@@ -44,7 +45,7 @@ public class Product extends SugarRecord<Product> implements Serializable {
     }
 
     public Product(boolean isTest) {
-        this.productname = lib.getRandomProductName();
+        this.name = lib.getRandomProductName();
         this.price = lib.randomInt(2, 100);
         this.quantity = lib.randomInt(1, 6);
         this.visiblesettings = false;
@@ -52,13 +53,12 @@ public class Product extends SugarRecord<Product> implements Serializable {
         this.barcode = "55665";
     }
 
-
-    public String getProductname() {
-        return productname;
+    public String getName() {
+        return name;
     }
 
-    public void setProductname(String productname) {
-        this.productname = productname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getPrice() {
@@ -104,7 +104,6 @@ public class Product extends SugarRecord<Product> implements Serializable {
         this.barcode = barcode;
     }
 
-
     public void QuantityMinus(int number) {
         try {
             setQuantity(getQuantity() - number);
@@ -119,5 +118,10 @@ public class Product extends SugarRecord<Product> implements Serializable {
 
     public double getTotalPrice() {
         return this.quantity * this.price;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + " " + this.price + lib.CurrencySymbol();
     }
 }

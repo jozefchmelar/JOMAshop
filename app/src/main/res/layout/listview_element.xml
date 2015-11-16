@@ -3,111 +3,111 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textViewPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="0,86"
-        android:id="@+id/textViewPrice"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp" />
+        android:text="0,86"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="c"
         android:id="@+id/currency1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textViewPrice"
+        android:layout_toEndOf="@+id/textViewPrice"
         android:layout_toRightOf="@+id/textViewPrice"
-        android:layout_toEndOf="@+id/textViewPrice" />
+        android:text="c"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Name of the product"
         android:id="@+id/textViewNameOfProduct"
-        android:layout_alignTop="@+id/textViewPrice"
-        android:layout_toRightOf="@+id/currency1"
-        android:layout_toEndOf="@+id/currency1" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="jednotkova cena"
+        android:layout_alignTop="@+id/textViewPrice"
+        android:layout_toEndOf="@+id/currency1"
+        android:layout_toRightOf="@+id/currency1"
+        android:text="Name of the product"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
         android:id="@+id/textViewPriceForOneProduct"
-        android:layout_below="@+id/textViewNameOfProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textViewNameOfProduct"
-        android:layout_alignStart="@+id/textViewNameOfProduct" />
+        android:layout_alignStart="@+id/textViewNameOfProduct"
+        android:layout_below="@+id/textViewNameOfProduct"
+        android:text="jednotkova cena"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/textViewPriceForOneProduct"
         android:layout_toRightOf="@+id/textViewNameOfProduct"
-        android:weightSum="1"
-        android:id="@+id/linearLayout">
+        android:orientation="horizontal"
+        android:weightSum="1">
 
         <EditText
+            android:id="@+id/editTextQuantity"
             android:layout_width="46dp"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
-            android:ems="10"
-            android:id="@+id/editTextQuantity"
+            android:layout_marginLeft="30dp"
             android:layout_weight="0.36"
+            android:ems="10"
+            android:inputType="numberSigned"
             android:text="1"
-            android:textAlignment="center"
-            android:layout_marginLeft="30dp" />
+            android:textAlignment="center" />
 
         <Button
+            android:id="@+id/buttonMinus"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
-            android:id="@+id/buttonMinus" />
+            android:text="-" />
 
         <Button
+            android:id="@+id/buttonPlus"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"
-            android:id="@+id/buttonPlus" />
+            android:text="+" />
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/buttonDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/buttonDelete"
         android:layout_below="@+id/linearLayout"
+        android:layout_toEndOf="@+id/textViewNameOfProduct"
         android:layout_toRightOf="@+id/textViewNameOfProduct"
-        android:layout_toEndOf="@+id/textViewNameOfProduct" />
+        android:text="Delete" />
 
     <Button
+        android:id="@+id/buttonEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
-        android:id="@+id/buttonEdit"
-        android:layout_below="@+id/textViewPriceForOneProduct"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="3dp" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textViewPriceForOneProduct"
+        android:layout_marginRight="3dp"
+        android:text="Edit" />
 
     <TextView
+        android:id="@+id/currency2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="c"
-        android:id="@+id/currency2"
         android:layout_alignBaseline="@+id/textViewPriceForOneProduct"
         android:layout_alignBottom="@+id/textViewPriceForOneProduct"
+        android:layout_toEndOf="@+id/textViewPriceForOneProduct"
         android:layout_toRightOf="@+id/textViewPriceForOneProduct"
-        android:layout_toEndOf="@+id/textViewPriceForOneProduct" />
+        android:text="#"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
