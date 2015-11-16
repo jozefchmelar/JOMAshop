@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements DataTransferInterface {
-
     private ArrayList<Product> shoppingList;
     private ListView ListViewShopping;
     private TextView textViewTotalPrice;
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         setContentView(R.layout.activity_main);
         init();
         autoComplete();
-        // Set adapter data to TextView
     }
 
     /*  Here I get the intent with the product and position that I edited, and try to update it
@@ -100,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
 
     /**
      * Here I get the message and update stuff in listview ...
+     *
      * @param changedProduct product that I will recevie trough interface
      * @param position       the same with position
      * @return
