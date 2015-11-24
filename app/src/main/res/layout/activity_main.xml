@@ -93,6 +93,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:onClick="btnScanBarcode"
         android:text="@string/btnScanner" />
 
     <ListView

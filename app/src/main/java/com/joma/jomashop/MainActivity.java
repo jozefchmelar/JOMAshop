@@ -16,21 +16,32 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity implements DataTransferInterface {
     private ArrayList<Product> shoppingList;
     private ListView ListViewShopping;
     private TextView textViewTotalPrice;
     private TextView currencySymbol1;
     private TextView currencySymbol2;
+
     private ProductAdapter productAdapter;
     private AutoCompleteTextView productNameSearch;
     private ArrayAdapter<Product> adapter;
+    private int limit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
+            this.limit = getIntent().getExtras().getInt("limit");
+
+        } catch (NullPointerException e) {
+            Log.e(lib.JOMAex, e.toString());
+        }
         init();
+        TextView limit = (TextView) findViewById(R.id.wantedToSpend);
+        limit.setText(this.limit + "");
         autoComplete();
     }
 
@@ -43,25 +54,26 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         try {
             int editedPosition = getIntent().getExtras().getInt("position");
             Product editedProduct = (Product) getIntent().getSerializableExtra("product");
+
             shoppingList.set(editedPosition, editedProduct);
             sortShoppingList();
             updateTotalPrice();
             productAdapter.notifyDataSetChanged();
         } catch (NullPointerException e) {
             Log.e(lib.JOMAex, e.toString());
+        } catch (Exception e) {
+            Log.e(lib.JOMAex, "this should never happen");
         }
     }
 
-    /*
-    Button for adding product.
-     */
+    //Button Add Product
     public void newProduct(View view) {
-        Product newProduct = new Product(lib.TESTING_OBJECT);
-        shoppingList.add(newProduct);
+        shoppingList.add(new Product(lib.TESTING_OBJECT));
         updateTotalPrice();
         this.productAdapter.notifyDataSetChanged();
     }
 
+    //Button I'm done
     public void buttonDone(View view) {
         ShoppingCart groceries = new ShoppingCart(shoppingList, ShoppingListHolder.getTotalPrice(), new Date());
         for (Product product : groceries.getShoppingList()) {
@@ -70,7 +82,15 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         ShoppingListHolder.deleteContent();
         Intent intent = new Intent(this, ResultOfShopping.class);
         intent.putExtra("groceries", groceries);
+        intent.putExtra("totalprice", ShoppingListHolder.getTotalPrice());
+        intent.putExtra("limit", this.limit);
         startActivity(intent);
+    }
+
+    //Button Scan Barcode
+    public void btnScanBarcode(View view) {
+        Intent intent = new Intent(this, Scanner.class);
+        startActivityForResult(intent, 0);
     }
 
     /**
@@ -97,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     }
 
     /**
-     * Here I get the message and update stuff in listview ...
+     * Here I get the message and update stuff in listview ..
      *
      * @param changedProduct product that I will recevie trough interface
      * @param position       the same with position
@@ -153,4 +173,6 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
             }
         });
     }
+
+
 }

@@ -10,4 +10,6 @@
     <string name="textViewProductName">Product name</string>
     <string name="textViewPrice">Price</string>
     <string name="favourite">Favourite?</string>
+    <string name="title_activity_scaner_test">scanerTest</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".MainActivity" >
         </activity>
-        <activity android:name=".ProductActivity" ></activity>
+        <activity android:name=".ProductActivity" />
 
         <meta-data
             android:name="DATABASE"
@@ -35,6 +35,10 @@
 
         <activity android:name=".ResultOfShopping">
         </activity>
+
+        <uses-permission android:name="android.permission.CAMERA" />
+
+        <activity android:name=".Scanner"></activity>
     </application>
 
 </manifest>
