@@ -25,6 +25,7 @@ public class ProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product);
         initializeComponents();
         // I'm trying to get intent in case that user decided to edit product insted of creating a new one
+        position=-1;
         try {
             this.product = (Product) getIntent().getSerializableExtra("product");
             this.position = getIntent().getExtras().getInt("position");
@@ -40,11 +41,18 @@ public class ProductActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("product", createProductFromDatafields());
         intent.putExtra("position", position);
-        startActivity(intent);
+        setResult(1,intent);
+        finish();
     }
 
     private void initializeComponents() {
         productName = (EditText) findViewById(R.id.editTextProductName);
+        productName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productName.setText("");
+            }
+        });
         productPrice = (EditText) findViewById(R.id.editTextPrice);
         productIsFavourite = (CheckBox) findViewById(R.id.checkBoxFavourite);
         scanBarcode = (Button) findViewById(R.id.buttonScanBarcode);
@@ -53,20 +61,26 @@ public class ProductActivity extends AppCompatActivity {
 
     private Product createProductFromDatafields() {
         // I'm just gettting the data from fields and creating a new Product object.
-        boolean ok= true;
+        boolean ok = true;
         String productName = this.productName.getText().toString();
         double price = 0;//get price from product price textarea
         try {
             price = Double.parseDouble(productPrice.getText().toString());
         } catch (NumberFormatException e) {
             Log.e(lib.JOMAex, e.toString());
-            ok=false;
+            ok = false;
         }
-        int quantity = product.getQuantity();
-        boolean visibleSettings = product.isVisiblesettings();
+        int quantity=-1;
+        try{
+          quantity = this.product.getQuantity();
+        }catch (NullPointerException e){
+              quantity=1;
+        }
+        boolean visibleSettings = false;
         boolean favourite = productIsFavourite.isChecked();
         String barcode = "";
-        if(!ok) Toast.makeText(ProductActivity.this, "Please insert correct data", Toast.LENGTH_SHORT).show();
+        if (!ok)
+            Toast.makeText(ProductActivity.this, "Please insert correct data", Toast.LENGTH_SHORT).show();
         return new Product(productName, price, quantity, visibleSettings, favourite, barcode);
     }
 

@@ -23,7 +23,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
 
     public ProductAdapter(Context context, ArrayList<Product> ShoppingList, DataTransferInterface dtInterface) {
-        super(context, R.layout.listview_element, R.id.textView, ShoppingList);
+        super(context, R.layout.listview_element, R.id.textViewLimit, ShoppingList);
         this.context = context;
         this.shoppingList = ShoppingList;
         this.dtInterface = dtInterface;

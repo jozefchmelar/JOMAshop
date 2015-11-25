@@ -1,25 +1,18 @@
 package com.joma.jomashop;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.method.TransformationMethod;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.NumberPicker;
-import android.app.Dialog;
-import android.widget.SeekBar;
+import android.widget.Toast;
 
 
 public class StartActivity extends AppCompatActivity {
     private NumberPicker picker;
+    private int pickerValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,23 +22,18 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void btn_start(View view) {
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-
         // numberPicker.
         picker.setWrapSelectorWheel(true);
-        picker.setMinValue(0);
+        picker.setMinValue(1);
         picker.setMaxValue(100);
-
-
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                pickerValue=picker.getValue();
                 launchIntent();
             }
-        })
+            })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -54,16 +42,14 @@ public class StartActivity extends AppCompatActivity {
                 })
                 .setTitle("Set limit :)")
                 .setView(picker);
-
         AlertDialog alert = builder.create();
         alert.show();
-        //
-
     }
 
     private void launchIntent() {
         Intent it = new Intent(this, MainActivity.class);
-        it.putExtra("limit", picker.getValue());
+        it.putExtra("limit", pickerValue);
         startActivity(it);
+        finish();
     }
 }

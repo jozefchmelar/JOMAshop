@@ -29,7 +29,6 @@
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/textViewProductName"
         android:layout_toEndOf="@+id/textViewProductName"
-        android:text="apple"
         android:textAlignment="viewEnd" />
 
     <TextView
@@ -55,7 +54,7 @@
         android:layout_toRightOf="@+id/textViewProductName"
         android:layout_toEndOf="@+id/textViewProductName"
         android:textAlignment="viewEnd"
-        android:text="10" />
+        android:text=" " />
 
     <CheckBox
         android:layout_width="wrap_content"

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,54 +24,65 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     private TextView textViewTotalPrice;
     private TextView currencySymbol1;
     private TextView currencySymbol2;
+    private TextView txtViewLimit;
+    private int limit;
 
     private ProductAdapter productAdapter;
     private AutoCompleteTextView productNameSearch;
     private ArrayAdapter<Product> adapter;
-    private int limit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        assignComponentsToVariables();
+        init();
         try {
-            this.limit = getIntent().getExtras().getInt("limit");
-
+            limit = getIntent().getExtras().getInt("limit");
+            txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
+            // getIntent().removeExtra("txtViewLimit");
         } catch (NullPointerException e) {
             Log.e(lib.JOMAex, e.toString());
+            txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
         }
-        init();
-        TextView limit = (TextView) findViewById(R.id.wantedToSpend);
-        limit.setText(this.limit + "");
         autoComplete();
     }
 
     /*  Here I get the intent with the product and position that I edited, and try to update it
         in shopping list, sort it and then notifydataset.there might be no intent so NullPointer.
     */
-    @Override
-    public void onResume() {
-        super.onResume();  //on resume happens when I return from Editproduct
-        try {
-            int editedPosition = getIntent().getExtras().getInt("position");
-            Product editedProduct = (Product) getIntent().getSerializableExtra("product");
 
-            shoppingList.set(editedPosition, editedProduct);
-            sortShoppingList();
-            updateTotalPrice();
-            productAdapter.notifyDataSetChanged();
-        } catch (NullPointerException e) {
-            Log.e(lib.JOMAex, e.toString());
-        } catch (Exception e) {
-            Log.e(lib.JOMAex, "this should never happen");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Toast.makeText(MainActivity.this, "on activiry restult 1 " + requestCode + resultCode, Toast.LENGTH_SHORT).show();
+        //on resume happens when I return from Editproduct
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode) {
+            case 1:
+                try {
+                    int editedPosition = data.getExtras().getInt("position");
+                    data.removeExtra("position");
+                    Product editedProduct = (Product) data.getSerializableExtra("product");
+                    getIntent().removeExtra("product");
+                     if (editedPosition == -1) addProductToList(editedProduct);
+                    else shoppingList.set(editedPosition, editedProduct);
+                    sortShoppingList();
+
+                    productAdapter.notifyDataSetChanged();
+                } catch (NullPointerException e) {
+                    Log.e(lib.JOMAex, e.toString());
+                } catch (Exception e) {
+                    Log.e(lib.JOMAex, "exception on resume main" + e.toString());
+                }
+                txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
+                updateTotalPrice();
         }
     }
 
     //Button Add Product
     public void newProduct(View view) {
-        shoppingList.add(new Product(lib.TESTING_OBJECT));
-        updateTotalPrice();
-        this.productAdapter.notifyDataSetChanged();
+        Intent intent = new Intent(this, ProductActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     //Button I'm done
@@ -82,8 +94,9 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         ShoppingListHolder.deleteContent();
         Intent intent = new Intent(this, ResultOfShopping.class);
         intent.putExtra("groceries", groceries);
-        intent.putExtra("totalprice", ShoppingListHolder.getTotalPrice());
-        intent.putExtra("limit", this.limit);
+        intent.putExtra("totalprice", textViewTotalPrice.getText().toString());
+        intent.putExtra("limit", txtViewLimit.getText().toString());
+        finish();
         startActivity(intent);
     }
 
@@ -142,11 +155,19 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     private void assignComponentsToVariables() {
         this.shoppingList = ShoppingListHolder.getInstance().getShoppingList();
         this.productNameSearch = (AutoCompleteTextView) findViewById(R.id.editTextProductNameSearch);
+        productNameSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                productNameSearch.setText("");
+            }
+        });
         // display currency symbols. These are those two in the top.
         this.currencySymbol1 = (TextView) findViewById(R.id.currencySymbol1);
         this.currencySymbol2 = (TextView) findViewById(R.id.currencySymbol2);
         this.currencySymbol1.setText(lib.CurrencySymbol());
         this.currencySymbol2.setText(lib.CurrencySymbol());
+        //txtViewLimit text view
+        this.txtViewLimit = (TextView) findViewById(R.id.wantedToSpend);
         //total price
         this.textViewTotalPrice = (TextView) findViewById(R.id.textViewTotalPrice);
         //assign listview, sort it, set adapter.
@@ -154,9 +175,6 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     }
 
     private void init() {
-        assignComponentsToVariables();
-        sortShoppingList();
-        updateTotalPrice();
         // set adapter
         productAdapter = new ProductAdapter(this, shoppingList, this);
         ListViewShopping.setAdapter(productAdapter);
@@ -170,9 +188,8 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addProductToList(adapter.getItem(position));
+                updateTotalPrice();
             }
         });
     }
-
-
 }
