@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btnScanner"
-        android:id="@+id/button3"
+        android:id="@+id/buttonScanBarcode"
         android:layout_below="@+id/checkBoxFavourite"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -84,5 +84,15 @@
         android:layout_alignRight="@+id/checkBoxFavourite"
         android:layout_alignEnd="@+id/checkBoxFavourite"
         android:onClick="onClickSave" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="no barcode"
+        android:id="@+id/textViewBarcode"
+        android:layout_alignBottom="@+id/buttonScanBarcode"
+        android:layout_alignLeft="@+id/editTextPrice"
+        android:layout_alignStart="@+id/editTextPrice" />
 
 </RelativeLayout>

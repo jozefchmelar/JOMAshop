@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity implements DataTransferInterface {
@@ -48,13 +49,14 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         autoComplete();
     }
 
+
+
     /*  Here I get the intent with the product and position that I edited, and try to update it
         in shopping list, sort it and then notifydataset.there might be no intent so NullPointer.
     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Toast.makeText(MainActivity.this, "on activiry restult 1 " + requestCode + resultCode, Toast.LENGTH_SHORT).show();
         //on resume happens when I return from Editproduct
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                     data.removeExtra("position");
                     Product editedProduct = (Product) data.getSerializableExtra("product");
                     getIntent().removeExtra("product");
-                     if (editedPosition == -1) addProductToList(editedProduct);
+                    if (editedPosition == -1) addProductToList(editedProduct);
                     else shoppingList.set(editedPosition, editedProduct);
                     sortShoppingList();
 
@@ -76,10 +78,14 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                 }
                 txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
                 updateTotalPrice();
+            case 2:
+                Toast.makeText(MainActivity.this, ""+data.getExtras().get("barcode"), Toast.LENGTH_SHORT).show();
+
         }
     }
 
     //Button Add Product
+
     public void newProduct(View view) {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivityForResult(intent, 1);
@@ -102,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
 
     //Button Scan Barcode
     public void btnScanBarcode(View view) {
-        Intent intent = new Intent(this, Scanner.class);
-        startActivityForResult(intent, 0);
+        Intent intent = new Intent(this, CameraTestActivity.class);
+        startActivityForResult(intent, 2);
     }
 
     /**

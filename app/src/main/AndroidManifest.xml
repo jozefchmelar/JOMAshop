@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.joma.jomashop" >
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -12,13 +13,14 @@
         <activity android:name=".StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" >
         </activity>
         <activity android:name=".ProductActivity" />
+        <activity android:name=".CameraTestActivity" />
+
 
         <meta-data
             android:name="DATABASE"
@@ -36,9 +38,11 @@
         <activity android:name=".ResultOfShopping">
         </activity>
 
-        <uses-permission android:name="android.permission.CAMERA" />
 
-        <activity android:name=".Scanner"></activity>
+        <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false" />
+
     </application>
 
 </manifest>
