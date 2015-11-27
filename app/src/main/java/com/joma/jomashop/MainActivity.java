@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         //on resume happens when I return from Editproduct
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
-            case 1:
+            case lib.ADD_PRODUCT:
                 try {
                     int editedPosition = data.getExtras().getInt("position");
                     data.removeExtra("position");
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
 
     public void newProduct(View view) {
         Intent intent = new Intent(this, ProductActivity.class);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, lib.ADD_PRODUCT);
     }
 
     //Button I'm done
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     //Button Scan Barcode
     public void btnScanBarcode(View view) {
         Intent intent = new Intent(this, CameraTestActivity.class);
-        startActivityForResult(intent, 2);
+        startActivityForResult(intent, lib.SCAN_BARCODE);
     }
 
     /**

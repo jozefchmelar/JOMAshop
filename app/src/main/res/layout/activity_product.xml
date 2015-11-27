@@ -73,7 +73,8 @@
         android:id="@+id/buttonScanBarcode"
         android:layout_below="@+id/checkBoxFavourite"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="buttonScanBarcode" />
 
     <Button
         android:layout_width="wrap_content"

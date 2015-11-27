@@ -23,6 +23,7 @@ public class lib {
     public static final boolean TESTING_OBJECT = true;
     public static final String JOMAtest = "Jomashop testing";
     public static final int SCAN_BARCODE = 2;
+    public static final int ADD_PRODUCT = 1;
 
     public static final double randomDouble(final int min, final int max) {
         Random r = new Random();

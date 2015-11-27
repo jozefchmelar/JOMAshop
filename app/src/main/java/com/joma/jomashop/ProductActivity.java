@@ -126,13 +126,19 @@ public class ProductActivity extends AppCompatActivity {
         // I use this method when I get some data from intent.
         productName.setText(product.getName());
         productPrice.setText(product.getPrice() + "");
-        textViewBarcode.setText(barcode);
+        textViewBarcode.setText(product.getBarcode());
         productIsFavourite.setChecked(product.isFavourite());
     }
 
-    public void buttonScanBarcode(View view){
+    public void buttonScanBarcode (View view){
         Intent intent = new Intent(this, CameraTestActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, lib.SCAN_BARCODE);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        this.barcode=data.getExtras().getString("barcode");
+        textViewBarcode.setText(barcode);
+    }
 }
