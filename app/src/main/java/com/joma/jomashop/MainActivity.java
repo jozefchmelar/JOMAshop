@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case lib.ADD_PRODUCT:
+
                 try {
                     int editedPosition = data.getExtras().getInt("position");
                     data.removeExtra("position");
@@ -78,8 +79,20 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                 }
                 txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
                 updateTotalPrice();
-            case 2:
-                Toast.makeText(MainActivity.this, ""+data.getExtras().get("barcode"), Toast.LENGTH_SHORT).show();
+
+            case lib.SCAN_BARCODE:
+
+                String query = "SELECT DISTINCT name,price FROM Product WHERE barcode="+data.getExtras().getString("barcode");
+                List<Product> queryResult = Product.findWithQuery(Product.class, query);
+                if(queryResult.isEmpty()){
+                    Intent intent = new Intent(this, ProductActivity.class);
+                    intent.putExtra("barcode",data.getExtras().getString("barcode"));
+                    startActivityForResult(intent, lib.ADD_PRODUCT);
+                }else{
+                    addProductToList(queryResult.get(0));
+                }
+
+
 
         }
     }
