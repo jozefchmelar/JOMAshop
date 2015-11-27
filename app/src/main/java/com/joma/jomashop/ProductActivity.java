@@ -60,9 +60,10 @@ public class ProductActivity extends AppCompatActivity {
         try {
             this.product = (Product) getIntent().getSerializableExtra("product");
             this.position = getIntent().getExtras().getInt("position");
-            barcode = getIntent().getExtras().getString("barcode");
+            this.barcode = getIntent().getExtras().getString("barcode");
+            textViewBarcode.setText(this.barcode);
 
-
+            Toast.makeText(ProductActivity.this, "product "+this.barcode, Toast.LENGTH_SHORT).show();
             getIntent().removeExtra("product");
             getIntent().removeExtra("position");
             getIntent().removeExtra("barcode");
@@ -72,7 +73,6 @@ public class ProductActivity extends AppCompatActivity {
             Log.e(lib.JOMAex, e.toString());
         }
     }
-
 
     public void onClickSave(View view) {
         //sending intent 'n stuff
@@ -126,19 +126,21 @@ public class ProductActivity extends AppCompatActivity {
         // I use this method when I get some data from intent.
         productName.setText(product.getName());
         productPrice.setText(product.getPrice() + "");
-        textViewBarcode.setText(product.getBarcode());
+        textViewBarcode.setText(this.barcode);
+    Toast.makeText(ProductActivity.this, "FILL"+this.barcode, Toast.LENGTH_SHORT).show();
         productIsFavourite.setChecked(product.isFavourite());
     }
 
     public void buttonScanBarcode (View view){
         Intent intent = new Intent(this, CameraTestActivity.class);
-        startActivityForResult(intent, lib.SCAN_BARCODE);
+        startActivityForResult(intent, 3);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         this.barcode=data.getExtras().getString("barcode");
+        Toast.makeText(ProductActivity.this, ""+barcode, Toast.LENGTH_SHORT).show();
         textViewBarcode.setText(barcode);
     }
 }

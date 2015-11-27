@@ -79,21 +79,21 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                 }
                 txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
                 updateTotalPrice();
-
+            break;
             case lib.SCAN_BARCODE:
 
                 String query = "SELECT DISTINCT name,price FROM Product WHERE barcode="+data.getExtras().getString("barcode");
                 List<Product> queryResult = Product.findWithQuery(Product.class, query);
                 if(queryResult.isEmpty()){
                     Intent intent = new Intent(this, ProductActivity.class);
-                    intent.putExtra("barcode",data.getExtras().getString("barcode"));
+                    String code = data.getExtras().getString("barcode");
+                    intent.putExtra("barcode",code);
+                    Toast.makeText(MainActivity.this, "main : "+code, Toast.LENGTH_SHORT).show();
                     startActivityForResult(intent, lib.ADD_PRODUCT);
                 }else{
                     addProductToList(queryResult.get(0));
-                }
-
-
-
+               }
+                break;
         }
     }
 
@@ -103,7 +103,12 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         Intent intent = new Intent(this, ProductActivity.class);
         startActivityForResult(intent, lib.ADD_PRODUCT);
     }
-
+    
+    //Button Scan Barcode
+    public void btnScanBarcode(View view) {
+        Intent intent = new Intent(this, CameraTestActivity.class);
+        startActivityForResult(intent, lib.SCAN_BARCODE);
+    }
     //Button I'm done
     public void buttonDone(View view) {
         ShoppingCart groceries = new ShoppingCart(shoppingList, ShoppingListHolder.getTotalPrice(), new Date());
@@ -119,11 +124,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         startActivity(intent);
     }
 
-    //Button Scan Barcode
-    public void btnScanBarcode(View view) {
-        Intent intent = new Intent(this, CameraTestActivity.class);
-        startActivityForResult(intent, lib.SCAN_BARCODE);
-    }
+   
 
     /**
      * If I delete product in ProductAdapter, through interface I will get this message

@@ -164,6 +164,7 @@ public class CameraTestActivity extends Activity {
 
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("barcode",barcode);
+
         setResult(2, intent);
         finish();
     }
