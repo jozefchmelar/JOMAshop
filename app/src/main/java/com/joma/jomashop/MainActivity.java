@@ -1,5 +1,7 @@
 package com.joma.jomashop;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                     data.removeExtra("position");
                     Product editedProduct = (Product) data.getSerializableExtra("product");
                     getIntent().removeExtra("product");
+                    Toast.makeText(MainActivity.this, "edited pos"+editedPosition, Toast.LENGTH_SHORT).show();
                     if (editedPosition == -1) addProductToList(editedProduct);
                     else shoppingList.set(editedPosition, editedProduct);
                     sortShoppingList();
@@ -87,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                 }
                 break;
         }
+        getIntent().removeExtra("product");
+        getIntent().removeExtra("position");
+        getIntent().removeExtra("barcode");
     }
 
     //Button Add Product
@@ -214,5 +221,64 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                 updateTotalPrice();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+     //   super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder
+                .setTitle("Change limit or leave?")
+                .setPositiveButton("Change Limit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    changeLimitDialog();
+                    }
+                })
+                .setNegativeButton("Leave", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        System.exit(0);//exit.
+                    }
+                })
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void changeLimitDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      final  NumberPicker picker =  new NumberPicker(this);
+        int pickerValue=-1;
+
+        picker.setWrapSelectorWheel(true);
+        picker.setMinValue(1);
+        picker.setMaxValue(100);
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                limit=picker.getValue();
+                txtViewLimit.setText(limit+"");
+
+            }
+        })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setTitle("Set limit :)")
+                .setView(picker);
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
