@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         init();
         try {
             limit = getIntent().getExtras().getInt("limit");
-            txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
-            // getIntent().removeExtra("txtViewLimit");
+            txtViewLimit.setText(limit + "");
         } catch (NullPointerException e) {
             Log.e(lib.JOMAex, e.toString());
             txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
@@ -51,12 +50,9 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         autoComplete();
     }
 
-
-
     /*  Here I get the intent with the product and position that I edited, and try to update it
         in shopping list, sort it and then notifydataset.there might be no intent so NullPointer.
     */
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -64,18 +60,20 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
             case lib.ADD_PRODUCT:
                 try {
                     int editedPosition = data.getExtras().getInt("position");
-                    data.removeExtra("position");
                     Product editedProduct = (Product) data.getSerializableExtra("product");
-                    getIntent().removeExtra("product");
-                    Toast.makeText(MainActivity.this, "edited pos"+editedPosition, Toast.LENGTH_SHORT).show();
-                    if (editedPosition == -1) addProductToList(editedProduct);
-                    else shoppingList.set(editedPosition, editedProduct);
+                    // if I add new product add it to the end of list.
+                    // but if i edit product (pos=-1) change the current one
+                    if (editedPosition == -1)
+                        addProductToList(editedProduct);
+                    else
+                        shoppingList.set(editedPosition, editedProduct);
+
                     sortShoppingList();
                     productAdapter.notifyDataSetChanged();
                 } catch (NullPointerException e) {
                     Log.e(lib.JOMAex, e.toString());
                 }
-                txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
+
                 updateTotalPrice();
                 break;
             case lib.SCAN_BARCODE:
@@ -94,10 +92,10 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         getIntent().removeExtra("product");
         getIntent().removeExtra("position");
         getIntent().removeExtra("barcode");
+        txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
     }
 
     //Button Add Product
-
     public void newProduct(View view) {
         Intent intent = new Intent(this, ProductActivity.class);
         startActivityForResult(intent, lib.ADD_PRODUCT);
@@ -119,11 +117,10 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         Intent intent = new Intent(this, ResultOfShopping.class);
         intent.putExtra("groceries", groceries);
         intent.putExtra("totalprice", textViewTotalPrice.getText().toString());
-        intent.putExtra("limit", txtViewLimit.getText().toString());
+        intent.putExtra("limit", limit);
         finish();
         startActivity(intent);
     }
-
 
     /**
      * If I delete product in ProductAdapter, through interface I will get this message
@@ -165,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     }
 
     private boolean addProductToList(final Product product) {
+        // if there's the same product it will increase the quantity instead of adding new product.
         for (Product p : this.shoppingList) {
             if (p.equalsTo(product)) {
                 p.setQuantity(p.getQuantity() + 1);
@@ -172,9 +170,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                 updateTotalPrice();
                 return true;
             }
-
         }
-
         this.shoppingList.add(product);
         this.productNameSearch.setText("");
         this.productAdapter.notifyDataSetChanged();
@@ -225,15 +221,14 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
 
     @Override
     public void onBackPressed() {
-     //   super.onBackPressed();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder
+        //   super.onBackPressed();
+        AlertDialog.Builder AlertBuilder = new AlertDialog.Builder(this);
+        AlertBuilder
                 .setTitle("Change limit or leave?")
                 .setPositiveButton("Change Limit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                    changeLimitDialog();
+                        changeLimitDialog();
                     }
                 })
                 .setNegativeButton("Leave", new DialogInterface.OnClickListener() {
@@ -250,35 +245,40 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                     }
                 });
 
-        AlertDialog alert = builder.create();
+        AlertDialog alert = AlertBuilder.create();
         alert.show();
     }
 
-    private void changeLimitDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-      final  NumberPicker picker =  new NumberPicker(this);
-        int pickerValue=-1;
-
+    /**
+     * Dialog that will have a value picker
+     * if user confirms, limit will change to the value in picker
+     * otherwise it will close the dialog.
+     */
+    private void changeLimitDialog() {
+        AlertDialog.Builder AlertBuilder = new AlertDialog.Builder(this);
+        final NumberPicker picker = new NumberPicker(this);
+        int pickerValue = -1;
         picker.setWrapSelectorWheel(true);
         picker.setMinValue(1);
         picker.setMaxValue(100);
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                limit=picker.getValue();
-                txtViewLimit.setText(limit+"");
+        AlertBuilder
+                .setTitle("Set limit :)")
+                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        limit = picker.getValue();
+                        txtViewLimit.setText(limit + "");
 
-            }
-        })
+                    }
+                })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 })
-                .setTitle("Set limit :)")
                 .setView(picker);
-        AlertDialog alert = builder.create();
+        AlertDialog alert = AlertBuilder.create();
         alert.show();
     }
 }

@@ -45,7 +45,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberSigned"
+        android:inputType="numberDecimal|numberSigned"
         android:ems="10"
         android:id="@+id/editTextPrice"
         android:layout_alignTop="@+id/textViewPrice"
@@ -54,7 +54,8 @@
         android:layout_toRightOf="@+id/textViewProductName"
         android:layout_toEndOf="@+id/textViewProductName"
         android:textAlignment="viewEnd"
-        android:text=" " />
+        android:text=" "
+        android:numeric="signed|decimal" />
 
     <CheckBox
         android:layout_width="wrap_content"
