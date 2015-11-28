@@ -124,4 +124,15 @@ public class Product extends SugarRecord<Product> implements Serializable {
     public String toString() {
         return this.name + " " + this.price + lib.CurrencySymbol();
     }
+
+    public boolean equalsTo(Product toCompare) {
+        try{
+            if(this.barcode==toCompare.getBarcode()) return true;
+        } catch(NullPointerException e){
+            Log.e(lib.JOMAex,"No barcode in product");
+        }
+        return this.name == toCompare.getName() && this.price == toCompare.getPrice();
+    }
+
+
 }

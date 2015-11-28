@@ -54,20 +54,17 @@ public class ProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        initializeComponents();
         // I'm trying to get intent in case that user decided to edit product insted of creating a new one
         position = -1;
+        initializeComponents();
         try {
             this.product = (Product) getIntent().getSerializableExtra("product");
             this.position = getIntent().getExtras().getInt("position");
             this.barcode = getIntent().getExtras().getString("barcode");
             textViewBarcode.setText(this.barcode);
-
-            Toast.makeText(ProductActivity.this, "product "+this.barcode, Toast.LENGTH_SHORT).show();
             getIntent().removeExtra("product");
             getIntent().removeExtra("position");
             getIntent().removeExtra("barcode");
-
             fillFieldsWithDataFromIntent(product);
         } catch (NullPointerException e) {
             Log.e(lib.JOMAex, e.toString());
@@ -95,6 +92,7 @@ public class ProductActivity extends AppCompatActivity {
         productIsFavourite = (CheckBox) findViewById(R.id.checkBoxFavourite);
         scanBarcode = (Button) findViewById(R.id.buttonScanBarcode);
         textViewBarcode = (TextView) findViewById(R.id.textViewBarcode);
+
     }
 
     private Product createProductFromDatafields() {
@@ -127,20 +125,23 @@ public class ProductActivity extends AppCompatActivity {
         productName.setText(product.getName());
         productPrice.setText(product.getPrice() + "");
         textViewBarcode.setText(this.barcode);
-    Toast.makeText(ProductActivity.this, "FILL"+this.barcode, Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProductActivity.this, "FILL" + this.barcode, Toast.LENGTH_SHORT).show();
         productIsFavourite.setChecked(product.isFavourite());
+        if (!product.getBarcode().isEmpty()) {
+            scanBarcode.setVisibility(View.INVISIBLE);
+        }
     }
 
-    public void buttonScanBarcode (View view){
+    public void buttonScanBarcode(View view) {
         Intent intent = new Intent(this, CameraTestActivity.class);
         startActivityForResult(intent, 3);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        this.barcode=data.getExtras().getString("barcode");
-        Toast.makeText(ProductActivity.this, ""+barcode, Toast.LENGTH_SHORT).show();
+        super.onActivityResult(requestCode, resultCode, data);
+        this.barcode = data.getExtras().getString("barcode");
+        Toast.makeText(ProductActivity.this, "" + barcode, Toast.LENGTH_SHORT).show();
         textViewBarcode.setText(barcode);
     }
 }

@@ -16,21 +16,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity implements DataTransferInterface {
+
+    private int limit;
     private ArrayList<Product> shoppingList;
+    private ProductAdapter productAdapter;
+    private AutoCompleteTextView productNameSearch;
+    private ArrayAdapter<Product> adapter;
     private ListView ListViewShopping;
     private TextView textViewTotalPrice;
     private TextView currencySymbol1;
     private TextView currencySymbol2;
     private TextView txtViewLimit;
-    private int limit;
-
-    private ProductAdapter productAdapter;
-    private AutoCompleteTextView productNameSearch;
-    private ArrayAdapter<Product> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +56,9 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //on resume happens when I return from Editproduct
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case lib.ADD_PRODUCT:
-
                 try {
                     int editedPosition = data.getExtras().getInt("position");
                     data.removeExtra("position");
@@ -70,29 +67,24 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                     if (editedPosition == -1) addProductToList(editedProduct);
                     else shoppingList.set(editedPosition, editedProduct);
                     sortShoppingList();
-
                     productAdapter.notifyDataSetChanged();
                 } catch (NullPointerException e) {
                     Log.e(lib.JOMAex, e.toString());
-                } catch (Exception e) {
-                    Log.e(lib.JOMAex, "exception on resume main" + e.toString());
                 }
                 txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
                 updateTotalPrice();
-            break;
+                break;
             case lib.SCAN_BARCODE:
-
-                String query = "SELECT DISTINCT name,price FROM Product WHERE barcode="+data.getExtras().getString("barcode");
-                List<Product> queryResult = Product.findWithQuery(Product.class, query);
-                if(queryResult.isEmpty()){
+                final String query = "SELECT DISTINCT name,price FROM Product WHERE barcode=" + data.getExtras().getString("barcode");
+                final List<Product> queryResult = Product.findWithQuery(Product.class, query);
+                if (queryResult.isEmpty()) {
                     Intent intent = new Intent(this, ProductActivity.class);
-                    String code = data.getExtras().getString("barcode");
-                    intent.putExtra("barcode",code);
-                    Toast.makeText(MainActivity.this, "main : "+code, Toast.LENGTH_SHORT).show();
+                    final String code = data.getExtras().getString("barcode");
+                    intent.putExtra("barcode", code);
                     startActivityForResult(intent, lib.ADD_PRODUCT);
-                }else{
-                    addProductToList(queryResult.get(0));
-               }
+                } else {
+                    addProductToList(queryResult.get(queryResult.size() - 1));
+                }
                 break;
         }
     }
@@ -103,12 +95,13 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         Intent intent = new Intent(this, ProductActivity.class);
         startActivityForResult(intent, lib.ADD_PRODUCT);
     }
-    
+
     //Button Scan Barcode
     public void btnScanBarcode(View view) {
         Intent intent = new Intent(this, CameraTestActivity.class);
         startActivityForResult(intent, lib.SCAN_BARCODE);
     }
+
     //Button I'm done
     public void buttonDone(View view) {
         ShoppingCart groceries = new ShoppingCart(shoppingList, ShoppingListHolder.getTotalPrice(), new Date());
@@ -124,11 +117,10 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         startActivity(intent);
     }
 
-   
 
     /**
      * If I delete product in ProductAdapter, through interface I will get this message
-     * Then I just update everythiung     *
+     * Then I just update everythiung
      *
      * @param value - how much the value changed.
      * @return
@@ -166,9 +158,20 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     }
 
     private boolean addProductToList(final Product product) {
+        for (Product p : this.shoppingList) {
+            if (p.equalsTo(product)) {
+                p.setQuantity(p.getQuantity() + 1);
+                this.productAdapter.notifyDataSetChanged();
+                updateTotalPrice();
+                return true;
+            }
+
+        }
+
         this.shoppingList.add(product);
         this.productNameSearch.setText("");
         this.productAdapter.notifyDataSetChanged();
+        updateTotalPrice();
         return true;
     }
 
