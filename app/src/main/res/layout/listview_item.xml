@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="13,45"
+        android:id="@+id/textViewPrice"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="c"
+        android:id="@+id/currency1"
+        android:layout_alignTop="@+id/textViewPrice"
+        android:layout_toRightOf="@+id/textViewPrice"
+        android:layout_toEndOf="@+id/textViewPrice"
+        android:layout_marginRight="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="tissues"
+        android:id="@+id/textViewNameOfProduct"
+        android:layout_alignTop="@+id/currency1"
+        android:layout_toRightOf="@+id/currency1"
+        android:layout_toEndOf="@+id/currency1"
+        android:layout_alignBottom="@+id/textViewPrice" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/buttonPlus"
+        android:layout_alignTop="@+id/textViewNameOfProduct"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/buttonMinus"
+        android:layout_alignTop="@+id/buttonPlus"
+        android:layout_toLeftOf="@+id/buttonPlus"
+        android:layout_toStartOf="@+id/buttonPlus" />
+
+    <EditText
+        android:id="@+id/editTextQuantity"
+        android:layout_width="46dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.36"
+        android:ems="10"
+        android:inputType="numberSigned"
+        android:text="1"
+        android:textAlignment="center"
+        android:layout_alignTop="@+id/buttonMinus"
+        android:layout_toLeftOf="@+id/buttonMinus"
+        android:layout_toStartOf="@+id/buttonMinus" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="jednotkova cena"
+        android:id="@+id/textViewPriceForOneProduct"
+        android:layout_below="@+id/currency1"
+        android:layout_toRightOf="@+id/currency1"
+        android:layout_toEndOf="@+id/currency1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="#"
+        android:id="@+id/currency2"
+        android:layout_alignBottom="@+id/textViewPriceForOneProduct"
+        android:layout_toRightOf="@+id/textViewPriceForOneProduct"
+        android:layout_toEndOf="@+id/textViewPriceForOneProduct" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:id="@+id/buttonEdit"
+        android:layout_below="@+id/buttonPlus"
+        android:layout_alignRight="@+id/buttonPlus"
+        android:layout_alignEnd="@+id/buttonPlus"
+        android:layout_marginBottom="5dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="delete"
+        android:id="@+id/buttonDelete"
+        android:layout_alignTop="@+id/buttonEdit"
+        android:layout_toLeftOf="@+id/buttonMinus"
+        android:layout_toStartOf="@+id/buttonMinus" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_alignTop="@+id/buttonDelete"
+        android:layout_alignLeft="@+id/textViewPrice"
+        android:layout_alignStart="@+id/textViewPrice"
+        android:layout_alignBottom="@+id/buttonDelete"
+        android:layout_toLeftOf="@+id/buttonDelete"
+        android:layout_toStartOf="@+id/buttonDelete" />
+
+</RelativeLayout>

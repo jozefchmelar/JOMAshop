@@ -1,8 +1,14 @@
 package com.joma.jomashop;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.net.Uri;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +21,23 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import com.squareup.seismic.ShakeDetector;
 
 
 public class MainActivity extends AppCompatActivity implements DataTransferInterface {
@@ -34,6 +53,14 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     private TextView currencySymbol2;
     private TextView txtViewLimit;
 
+
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
             txtViewLimit.setText(limit + ""); // Set LIMIT textview to the number I set in ProductPicker.
         }
         autoComplete();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     /*  Here I get the intent with the product and position that I edited, and try to update it
@@ -68,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                     else
                         shoppingList.set(editedPosition, editedProduct);
 
-                    sortShoppingList();
                     productAdapter.notifyDataSetChanged();
                 } catch (NullPointerException e) {
                     Log.e(lib.JOMAex, e.toString());
@@ -118,7 +148,12 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         intent.putExtra("groceries", groceries);
         intent.putExtra("totalprice", textViewTotalPrice.getText().toString());
         intent.putExtra("limit", limit);
+        Gson gson = new Gson();
+        String json = gson.toJson(groceries);
+        Log.w("json", json.toString());
+
         finish();
+
         startActivity(intent);
     }
 
@@ -132,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     @Override
     public double deletedProductValue(double value) {
         updateTotalPrice();
-        sortShoppingList();
         ListViewShopping.setAdapter(productAdapter);
         return 0;
     }
@@ -156,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
     public Product productToEdit(Product changedProduct, int position) {
         shoppingList.set(position, changedProduct);
         updateTotalPrice();
-        sortShoppingList();
         ListViewShopping.setAdapter(productAdapter);
         return null;
     }
@@ -204,6 +237,8 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         // set adapter
         productAdapter = new ProductAdapter(this, shoppingList, this);
         ListViewShopping.setAdapter(productAdapter);
+
+
     }
 
     private void autoComplete() {
@@ -281,4 +316,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
         AlertDialog alert = AlertBuilder.create();
         alert.show();
     }
+
+
+
 }

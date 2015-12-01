@@ -31,5 +31,6 @@ public class ResultOfShopping extends AppCompatActivity {
         Intent intent = new Intent(this, StartActivity.class);
         finish();
         startActivity(intent);
+
     }
 }

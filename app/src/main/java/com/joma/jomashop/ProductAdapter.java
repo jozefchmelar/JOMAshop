@@ -23,7 +23,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
 
 
     public ProductAdapter(Context context, ArrayList<Product> ShoppingList, DataTransferInterface dtInterface) {
-        super(context, R.layout.listview_element, R.id.textViewLimit, ShoppingList);
+        super(context, R.layout.listview_item, R.id.textViewLimit, ShoppingList);
         this.context = context;
         this.shoppingList = ShoppingList;
         this.dtInterface = dtInterface;
@@ -34,7 +34,7 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         // get row
 
         final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.listview_element, parent, false);
+        View rowView = inflater.inflate(R.layout.listview_item, parent, false);
         final Product product = shoppingList.get(position);
         TextView currency1 = (TextView) rowView.findViewById(R.id.currency1);
         currency1.setText(lib.CurrencySymbol());

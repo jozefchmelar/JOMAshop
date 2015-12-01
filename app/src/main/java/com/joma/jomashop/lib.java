@@ -3,6 +3,9 @@ package com.joma.jomashop;
 import android.view.View;
 import android.widget.TextView;
 
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
 import java.lang.reflect.Array;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -115,5 +118,8 @@ public class lib {
         }
         return result;
     }
+
+
+
 
 }
