@@ -62,7 +62,7 @@ public class Product extends SugarRecord<Product> implements Serializable {
     }
 
     public double getPrice() {
-        return lib.round(price,2);
+        return lib.round(price, 2);
     }
 
     public void setPrice(double price) {
@@ -117,7 +117,7 @@ public class Product extends SugarRecord<Product> implements Serializable {
     }
 
     public double getTotalPrice() {
-        return lib.round(this.quantity * this.price,2);
+        return lib.round(this.quantity * this.price, 2);
     }
 
     @Override
@@ -126,6 +126,10 @@ public class Product extends SugarRecord<Product> implements Serializable {
     }
 
     public boolean equalsTo(Product toCompare) {
-        return this.name == toCompare.name && getPrice() == toCompare.getPrice() && this.barcode == toCompare.barcode;
+        try {
+            return getName().equals(toCompare.getName())  && getPrice()==toCompare.getPrice() && getBarcode().equals(toCompare);
+        } catch (NullPointerException e) {
+            return getName().equals(toCompare.getName())  && getPrice()==toCompare.getPrice()
+        }
     }
 }
