@@ -62,7 +62,7 @@ public class Product extends SugarRecord<Product> implements Serializable {
     }
 
     public double getPrice() {
-        return price;
+        return lib.round(price,2);
     }
 
     public void setPrice(double price) {
@@ -122,10 +122,10 @@ public class Product extends SugarRecord<Product> implements Serializable {
 
     @Override
     public String toString() {
-        return this.name + " " + this.price + lib.CurrencySymbol();
+        return this.name + " " + getPrice() + lib.CurrencySymbol();
     }
 
     public boolean equalsTo(Product toCompare) {
-        return this.name == toCompare.name && this.price == toCompare.price && this.barcode == toCompare.barcode;
+        return this.name == toCompare.name && getPrice() == toCompare.getPrice() && this.barcode == toCompare.barcode;
     }
 }
