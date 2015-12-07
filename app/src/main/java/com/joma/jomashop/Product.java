@@ -117,7 +117,7 @@ public class Product extends SugarRecord<Product> implements Serializable {
     }
 
     public double getTotalPrice() {
-        return this.quantity * this.price;
+        return lib.round(this.quantity * this.price,2);
     }
 
     @Override

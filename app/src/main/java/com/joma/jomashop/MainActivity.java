@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements DataTransferInter
                     Product editedProduct = (Product) data.getSerializableExtra("product");
                     // if I add new product add it to the end of list.
                     // but if i edit product (pos=-1) change the current one
-                    if (editedPosition == -1)
+                    if (editedPosition == -1 || shoppingList.size()==0)
                         addProductToList(editedProduct);
                     else
                         shoppingList.set(editedPosition, editedProduct);
