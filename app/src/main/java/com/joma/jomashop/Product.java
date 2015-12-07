@@ -129,7 +129,7 @@ public class Product extends SugarRecord<Product> implements Serializable {
         try {
             return getName().equals(toCompare.getName())  && getPrice()==toCompare.getPrice() && getBarcode().equals(toCompare);
         } catch (NullPointerException e) {
-            return getName().equals(toCompare.getName())  && getPrice()==toCompare.getPrice()
+            return getName().equals(toCompare.getName())  && getPrice()==toCompare.getPrice();
         }
     }
 }
