@@ -49,18 +49,13 @@ public class StatisticsActivity extends AppCompatActivity {
         addData();
 
         mChart.setUsePercentValues(true);
-        mChart.setDescription("Smartphones");
+        mChart.setDescription("Most popular products");
         mChart.setHoleColorTransparent(true);
         mChart.setHoleRadius(7);
         mChart.setTransparentCircleRadius(10);
 
         mChart.setRotationAngle(0);
         mChart.setRotationEnabled(true);
-
-        Legend l = mChart.getLegend();
-        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
-        l.setXEntrySpace(7);
-        l.setYEntrySpace(5);
     }
 
     public void addData() {
