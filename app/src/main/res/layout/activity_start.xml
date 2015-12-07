@@ -22,4 +22,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="33dp"></FrameLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_statistics"
+        android:id="@+id/button"
+        android:onClick="btnStatistics"
+        android:layout_below="@+id/btn_Start"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

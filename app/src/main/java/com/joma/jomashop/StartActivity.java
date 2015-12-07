@@ -33,17 +33,22 @@ public class StartActivity extends AppCompatActivity {
                 pickerValue=picker.getValue();
                 launchIntent();
             }
-            })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                })
-                .setTitle("Set limit :)")
-                .setView(picker);
+        })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        })
+        .setTitle("Set limit :)")
+        .setView(picker);
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public void btnStatistics(View view) {
+        Intent intent = new Intent(StartActivity.this, StatisticsActivity.class);
+        startActivity(intent);
     }
 
     private void launchIntent() {

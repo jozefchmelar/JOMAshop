@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.joma.jomashop" >
+
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -13,6 +15,7 @@
         <activity android:name=".StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -20,7 +23,6 @@
         </activity>
         <activity android:name=".ProductActivity" />
         <activity android:name=".CameraTestActivity" />
-
 
         <meta-data
             android:name="DATABASE"
@@ -35,20 +37,27 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.joma.jomashop" />
 
-        <activity android:name=".ResultOfShopping">
+        <activity android:name=".ResultOfShopping" >
         </activity>
-
 
         <uses-feature
             android:name="android.hardware.camera"
             android:required="false" />
-        <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <uses-feature
+            android:name="android.hardware.sensor.accelerometer"
+            android:required="true" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity
+            android:name=".StatisticsActivity"
+            android:label="@string/title_activity_statistics" >
+        </activity>
     </application>
 
 </manifest>
